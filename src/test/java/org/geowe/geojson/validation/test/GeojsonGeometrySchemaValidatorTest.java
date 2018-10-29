@@ -2,17 +2,18 @@ package org.geowe.geojson.validation.test;
 
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
 import org.geowe.geojson.validation.GeojsonValidator;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 
 public class GeojsonGeometrySchemaValidatorTest {
 
-	private static final Logger LOG = Logger.getLogger(GeojsonGeometrySchemaValidatorTest.class);
+	private static final Logger LOG = LoggerFactory.getLogger(GeojsonGeometrySchemaValidatorTest.class);
 
 
 	@Test
@@ -31,7 +32,7 @@ public class GeojsonGeometrySchemaValidatorTest {
 		try {
 			ProcessingReport validationResult = validator.validateGeometrySchema(TestDataProvider.VALID_FEATURE_POINT_GEOJSON)
 					.get();
-			LOG.info(validationResult);
+			LOG.info(validationResult.toString());
 			
 			Assert.assertFalse(validationResult.isSuccess());			
 		} catch (IOException | ProcessingException e) {

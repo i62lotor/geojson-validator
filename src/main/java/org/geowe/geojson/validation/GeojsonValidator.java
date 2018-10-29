@@ -49,7 +49,7 @@ public class GeojsonValidator {
 	public Optional<ProcessingReport> validateSchema(String geojson) throws ProcessingException, IOException{
 
 		return validate(geojson, new GeojsonSchemaProvider()
-				.getJsonSchema(GeojsonSchemaProvider.GEOJSON_SCHEMA));
+				.getJsonSchema(GeojsonSchemaProvider.Schema.GEOJSON_SCHEMA));
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class GeojsonValidator {
 	public Optional<ProcessingReport> validateGeometrySchema(String geojson) throws ProcessingException, IOException {
 
 		return validate(geojson, new GeojsonSchemaProvider()
-				.getJsonSchema(GeojsonSchemaProvider.GEOMETRY_SCHEMA));
+				.getJsonSchema(GeojsonSchemaProvider.Schema.GEOMETRY_SCHEMA));
 	}
 	
 	

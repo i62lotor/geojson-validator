@@ -19,9 +19,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
-import org.apache.log4j.Logger;
 import org.geowe.geojson.validation.GeojsonValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,16 +45,27 @@ import com.github.fge.jsonschema.main.JsonSchemaFactory;
  */
 public class GeojsonSchemaProvider {
 
-	private static final Logger LOG = Logger.getLogger(GeojsonSchemaProvider.class);
+	private static final Logger LOG = LoggerFactory.getLogger(GeojsonSchemaProvider.class);
 
-	//TODO: perhaps an enum is better idea
-	public static String GEOJSON_SCHEMA = "/schemas/geojson.json";
-	public static String GEOMETRY_SCHEMA = "/schemas/geometry.json";
-	public static String CRS_SCHEMA = "/schemas/crs.json";
-	public static String BBOX_SCHEMA = "/schemas/bbox.json";
-
+	//TODO: perhaps externalize to a property file is a better idea
+	public enum Schema {
+		GEOJSON_SCHEMA("/schemas/geojson.json"),
+		GEOMETRY_SCHEMA("/schemas/geometry.json"),
+		CRS_SCHEMA("/schemas/crs.json"),
+		BBOX_SCHEMA("/schemas/bbox.json");
+		
+		private String source;
+		
+		private Schema(String source){
+			this.source = source;
+		}
+		
+		public String getSource(){
+			return source;
+		}
+	}
 	
-	private Map<String, JsonNode> schemas = new HashMap<String, JsonNode>();
+	private Map<Schema, JsonNode> schemas = new HashMap<Schema, JsonNode>();
 	private JsonSchemaFactory jsonSchemaFactory;
 
 	/**
@@ -64,19 +77,16 @@ public class GeojsonSchemaProvider {
 	}
 
 	private void load() {
-		schemas.put(GEOJSON_SCHEMA, loadSchema(GEOJSON_SCHEMA));
-		schemas.put(GEOMETRY_SCHEMA, loadSchema(GEOMETRY_SCHEMA));
-		schemas.put(CRS_SCHEMA, loadSchema(CRS_SCHEMA));
-		schemas.put(BBOX_SCHEMA, loadSchema(BBOX_SCHEMA));
-
+		Stream.of(Schema.values()).forEach(s -> schemas.put(s, loadSchema(s)));
+		
 		jsonSchemaFactory = JsonSchemaFactory.newBuilder()
 				.setLoadingConfiguration(configure()).freeze();
 	}
 
-	private JsonNode loadSchema(String jsonSchemaName) {
+	private JsonNode loadSchema(Schema jsonSchemaName) {
 		JsonNode jsonNode = null;
 		try {
-			InputStream is = GeojsonValidator.class.getResourceAsStream(jsonSchemaName);
+			InputStream is = GeojsonValidator.class.getResourceAsStream(jsonSchemaName.getSource());
 			jsonNode = new ObjectMapper().readTree(is);
 
 		} catch (IOException e) {
@@ -86,20 +96,20 @@ public class GeojsonSchemaProvider {
 	}
 
 	private LoadingConfiguration configure() {
-		return LoadingConfiguration.newBuilder().preloadSchema(this.schemas.get(GEOJSON_SCHEMA))
-				.preloadSchema(this.schemas.get(GEOMETRY_SCHEMA)).preloadSchema(this.schemas.get(CRS_SCHEMA))
-				.preloadSchema(this.schemas.get(BBOX_SCHEMA)).setEnableCache(true).freeze();
+		return LoadingConfiguration.newBuilder().preloadSchema(this.schemas.get(Schema.GEOJSON_SCHEMA))
+				.preloadSchema(this.schemas.get(Schema.GEOMETRY_SCHEMA)).preloadSchema(this.schemas.get(Schema.CRS_SCHEMA))
+				.preloadSchema(this.schemas.get(Schema.BBOX_SCHEMA)).setEnableCache(true).freeze();
 	}
 
 	/**
 	 * Obtain a valid geojson schema.
-	 * @param schemaName values: GeojsonSchemaProvider.GEOMETRY_SCHEMA, GeojsonSchemaProvider.GEOJSON_SCHEMA,
-	 * GeojsonSchemaProvider.CRS_SCHEMA, GeojsonSchemaProvider.BBOX_SCHEMA
+	 * @param schema values: Schema.GEOMETRY_SCHEMA, Schema..GEOJSON_SCHEMA,
+	 * Schema..CRS_SCHEMA, Schema..BBOX_SCHEMA
 	 * @return JsonSchema
 	 * @throws ProcessingException
 	 */
-	public JsonSchema getJsonSchema(String schemaName) throws ProcessingException {
-		return jsonSchemaFactory.getJsonSchema(schemas.get(schemaName));
+	public JsonSchema getJsonSchema(Schema schema) throws ProcessingException {
+		return jsonSchemaFactory.getJsonSchema(schemas.get(schema));
 	}
 
 }
