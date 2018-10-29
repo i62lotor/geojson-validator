@@ -52,3 +52,5 @@ Aún en desarrollo pero lista para usar. Se acepta sugerencias de mejoras. Algun
 - Revisar los esquemas para verificar que cumplen con el [último RFC](http://geojson.org/).
 
 - Revisar los TODOs en el código
+
+- Integrar [sl4j](https://www.slf4j.org/)
