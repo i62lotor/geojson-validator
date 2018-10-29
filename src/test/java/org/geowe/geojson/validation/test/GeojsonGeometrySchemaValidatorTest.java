@@ -19,7 +19,7 @@ public class GeojsonGeometrySchemaValidatorTest {
 	public void Given_validGeojson_When_validateGeometry_Expect_success() {
 		GeojsonValidator validator = new GeojsonValidator();
 		try {
-			Assert.assertTrue(validator.validateGeometry(TestDataProvider.VALID_POINT_GEOMETRY).get().isSuccess());
+			Assert.assertTrue(validator.validateGeometrySchema(TestDataProvider.VALID_POINT_GEOMETRY).get().isSuccess());
 		} catch (IOException | ProcessingException e) {
 			LOG.error("Validation fails: " + e);
 		}
@@ -29,7 +29,7 @@ public class GeojsonGeometrySchemaValidatorTest {
 	public void Given_invalidGeometryGeojson_When_validateGeometry_Expect_fails() {
 		GeojsonValidator validator = new GeojsonValidator();
 		try {
-			ProcessingReport validationResult = validator.validateGeometry(TestDataProvider.VALID_FEATURE_POINT_GEOJSON)
+			ProcessingReport validationResult = validator.validateGeometrySchema(TestDataProvider.VALID_FEATURE_POINT_GEOJSON)
 					.get();
 			LOG.info(validationResult);
 			

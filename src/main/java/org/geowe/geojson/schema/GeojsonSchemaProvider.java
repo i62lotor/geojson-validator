@@ -52,7 +52,7 @@ public class GeojsonSchemaProvider {
 	public static String BBOX_SCHEMA = "/schemas/bbox.json";
 
 	
-	private Map<String, JsonNode> schemas = new HashMap<>();
+	private Map<String, JsonNode> schemas = new HashMap<String, JsonNode>();
 	private JsonSchemaFactory jsonSchemaFactory;
 
 	/**
