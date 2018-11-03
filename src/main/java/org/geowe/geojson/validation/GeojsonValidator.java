@@ -81,36 +81,48 @@ public class GeojsonValidator {
 	/**
 	 * Tests whether the Geometry component is topologically valid, according to
 	 * the OGC SFS specification, using JTS implementation<br>
-	 * Validate: Geometry, Point, LineString, Polygon, GeometryCollection and Feature.
+	 * 
 	 * @param geojson
+	 *            of Geometry (Geometry, Point, LineString, Polygon, MultiPoint,
+	 *            MultiPolygon, MultiLineString GeometryCollection) or Feature.
 	 * @return true if geometry is valid
 	 * @throws IOException
 	 * 
 	 */
 	public boolean isGeometryValid(String geojson) throws IOException {
-
+		if (isFeatureCollection(geojson)) {
+			throw new IllegalArgumentException("Cannot validate FeatureCollection");
+		}
 		boolean isValid = false;
 		Optional<Geometry> geomOpt = getGeometry(geojson);
-		if(geomOpt.isPresent()){
+		if (geomOpt.isPresent()) {
 			isValid = geomOpt.get().isValid();
 		}
 		return isValid;
 	}
-	
-	private Optional<Geometry> getGeometry(String geojson) throws IOException{
+
+	private boolean isFeatureCollection(String geojson) throws IOException {
+		return "FeatureCollection".equals(getGeojsonType(geojson));
+	}
+
+	private Optional<Geometry> getGeometry(String geojson) throws IOException {
 		GeoJSONReader reader = new GeoJSONReader();
 		Geometry geom = null;
-		if ("Feature".equals(getGeojsonType(geojson))) {
+		if (isFeature(geojson)) {
 			geom = reader.feature(geojson).geometry();
 		} else {
 			geom = reader.geometry(geojson);
 		}
 		return Optional.ofNullable(geom);
 	}
-	
-	private String getGeojsonType(String geojson) throws IOException{
+
+	private boolean isFeature(String geojson) throws IOException {
+		return "Feature".equals(getGeojsonType(geojson));
+	}
+
+	private String getGeojsonType(String geojson) throws IOException {
 		JsonNode geoJsonNode = objectMapper.readTree(geojson);
 		return geoJsonNode.get("type").textValue();
 	}
-	
+
 }

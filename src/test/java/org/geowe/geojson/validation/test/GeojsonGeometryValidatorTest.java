@@ -42,6 +42,17 @@ public class GeojsonGeometryValidatorTest {
 			Assert.fail();
 			e.printStackTrace();
 		}
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void Given_FeatureCollectionGeojson_When_validateGeometry_Expect_Exception(){
+		try {
+			GeojsonValidator validator = new GeojsonValidator();
+			validator.isGeometryValid(TestDataProvider.VALID_FEATURE_COLLECTION);
+		} catch (IOException e) {
+			Assert.fail();
+			e.printStackTrace();
+		}
 		
 	}
 }
