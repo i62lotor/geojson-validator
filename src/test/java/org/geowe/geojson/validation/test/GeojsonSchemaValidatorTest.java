@@ -29,7 +29,7 @@ public class GeojsonSchemaValidatorTest {
 	public void Given_invalidGeojson_When_validate_Expect_fails() {
 		GeojsonValidator validator = new GeojsonValidator();
 		try {
-			ProcessingReport validationResult = validator.validateSchema(TestDataProvider.INVALID_POLYGON_GEOJSON)
+			ProcessingReport validationResult = validator.validateSchema(TestDataProvider.INVALID_POLYGON_SCHEMA_GEOJSON)
 					.get();
 			LOG.info(validationResult.toString());
 			Assert.assertFalse(validationResult.isSuccess());

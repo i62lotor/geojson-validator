@@ -15,26 +15,26 @@ public class GeojsonGeometrySchemaValidatorTest {
 
 	private static final Logger LOG = LoggerFactory.getLogger(GeojsonGeometrySchemaValidatorTest.class);
 
-
 	@Test
-	public void Given_validGeojson_When_validateGeometry_Expect_success() {
+	public void Given_validGeojsonSchema_When_validateGeometry_Expect_success() {
 		GeojsonValidator validator = new GeojsonValidator();
 		try {
-			Assert.assertTrue(validator.validateGeometrySchema(TestDataProvider.VALID_POINT_GEOMETRY).get().isSuccess());
+			Assert.assertTrue(
+					validator.validateGeometrySchema(TestDataProvider.VALID_POINT_GEOJSON).get().isSuccess());
 		} catch (IOException | ProcessingException e) {
 			LOG.error("Validation fails: " + e);
 		}
 	}
-	
+
 	@Test
-	public void Given_invalidGeometryGeojson_When_validateGeometry_Expect_fails() {
+	public void Given_invalidGeometrySchemaGeojson_When_validateGeometry_Expect_fails() {
 		GeojsonValidator validator = new GeojsonValidator();
 		try {
-			ProcessingReport validationResult = validator.validateGeometrySchema(TestDataProvider.VALID_FEATURE_POINT_GEOJSON)
-					.get();
+			ProcessingReport validationResult = validator
+					.validateGeometrySchema(TestDataProvider.INVALID_POLYGON_SCHEMA_GEOJSON).get();
 			LOG.info(validationResult.toString());
-			
-			Assert.assertFalse(validationResult.isSuccess());			
+
+			Assert.assertFalse(validationResult.isSuccess());
 		} catch (IOException | ProcessingException e) {
 			LOG.error("Validation fails: " + e);
 		}
