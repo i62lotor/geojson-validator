@@ -3,6 +3,7 @@ geojson validator java library. Se apoya en [json-schema-validator](https://json
 
 ## Objetivo
 Proporcionar una utilidad para validar el esquema de un GeoJSON. Incluyendo geometría y feature.
+A partir de la versión 0.0.3-SNAPSHOT también valida si la geometría es topológicamente correcta usando JTS.
 
 ## Tecnología
 - Java 8
@@ -25,12 +26,12 @@ luego incluir la dependencia en tu proyecto
 <dependency>
 	<groupId>org.geowe.geojson</groupId>
 	<artifactId>geojson-validator</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 </dependency>
 ```
 
 ## Ejemplo:
-Cómo validar un GeoJSON:
+Cómo validar el esquema de un GeoJSON:
 
 ```
 GeojsonValidator validator = new GeojsonValidator();
