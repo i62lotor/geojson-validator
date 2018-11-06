@@ -13,4 +13,11 @@ public class TestDataProvider {
 	public static final String VALID_POINT_GEOJSON = "{\"type\":\"Point\",\"coordinates\":[101.3818359375,-0.3790255558308115]}";
 	public static final String VALID_LINESTRING_GEOJSON = "{\"type\":\"LineString\",\"coordinates\":[[101.38170182704926,-0.37865273692742313],[101.38204783201218,-0.37883512315554363],[101.38206660747528,-0.3791006560396358],[101.38178765773773,-0.37937155321600796],[101.38165354728699,-0.3792454921547884]]}";
 	public static final String INVALID_POLYGON_GEOJSON = "{\"type\":\"Polygon\",\"coordinates\":[[[101.38203978538513,-0.37824236790011306],[101.38233482837676,-0.3783147859651637],[101.38202100992203,-0.3785856831661152],[101.38224631547928,-0.3787385657411375],[101.38234555721283,-0.37850790080234714],[101.38203978538513,-0.37824236790011306]]]}";
+	
+	public static final String VALID_BBOX_GEOJSON = "{\"bbox\":[-180,-90,180,90]}";
+	public static final String INVALID_BBOX_GEOJSON = "{\"bbox\":[-180,-90,180]}";
+	
+	public static final String VALID_CRS_GEOJSON = "{\"type\":\"name\",\"properties\":{\"name\":\"urn:ogc:def:crs:OGC:1.3:CRS84\"}}";
+	public static final String INVALID_CRS_GEOJSON = "{\"typ-e\":\"name\",\"properties\":{\"name\":\"urn:ogc:def:crs:OGC:1.3:CRS84\"}}";
 }
+

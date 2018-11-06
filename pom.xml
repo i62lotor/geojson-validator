@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.geowe.geojson</groupId>
 	<artifactId>geojson-validator</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.4-SNAPSHOT</version>
 
 	<name>Geojson Validator</name>
 	<description>Utility to validate Geojson schema and geometry</description>

@@ -49,10 +49,11 @@ public class GeojsonValidator {
 	 * @throws IOException
 	 * @throws ProcessingException
 	 */
-	public Optional<ProcessingReport> validateSchema(String geojson) throws ProcessingException, IOException {
+	public Optional<ProcessingReport> validateSchema(String geojson)
+			throws ProcessingException, IOException {
 
-		return validate(geojson,
-				new GeojsonSchemaProvider().getJsonSchema(GeojsonSchemaProvider.Schema.GEOJSON_SCHEMA));
+		return validate(geojson, new GeojsonSchemaProvider()
+				.getJsonSchema(GeojsonSchemaProvider.Schema.GEOJSON_SCHEMA));
 	}
 
 	/**
@@ -64,12 +65,43 @@ public class GeojsonValidator {
 	 * @throws ProcessingException
 	 * @throws IOException
 	 */
-	public Optional<ProcessingReport> validateGeometrySchema(String geojson) throws ProcessingException, IOException {
+	public Optional<ProcessingReport> validateGeometrySchema(String geojson)
+			throws ProcessingException, IOException {
 
-		return validate(geojson,
-				new GeojsonSchemaProvider().getJsonSchema(GeojsonSchemaProvider.Schema.GEOMETRY_SCHEMA));
+		return validate(geojson, new GeojsonSchemaProvider()
+				.getJsonSchema(GeojsonSchemaProvider.Schema.GEOMETRY_SCHEMA));
 	}
 
+	/**
+	 * Validate geoJSON optional bbox schema according to resources/schemas/bbox.json
+	 * 
+	 * @param geojson : bbox geojson
+	 * @return Optional<ProcessingReport> : validation report
+	 * @throws ProcessingException
+	 * @throws IOException
+	 */
+	public Optional<ProcessingReport> validateBboxSchema(String geojson)
+			throws ProcessingException, IOException {
+
+		return validate(geojson, new GeojsonSchemaProvider()
+				.getJsonSchema(GeojsonSchemaProvider.Schema.BBOX_SCHEMA));
+	}
+
+	/**
+	 * Validate geoJSON optional crs schema (not included in RFC) according to resources/schemas/crs.json
+	 * 
+	 * @param geojson : crs geojson
+	 * @return Optional<ProcessingReport> : validation report
+	 * @throws ProcessingException
+	 * @throws IOException
+	 */
+	public Optional<ProcessingReport> validateCrsSchema(String geojson)
+			throws ProcessingException, IOException {
+
+		return validate(geojson, new GeojsonSchemaProvider()
+				.getJsonSchema(GeojsonSchemaProvider.Schema.CRS_SCHEMA));
+	}
+	
 	private Optional<ProcessingReport> validate(String geojson, JsonSchema jsonSchema)
 			throws ProcessingException, IOException {
 		JsonNode geoJsonNode = objectMapper.readTree(geojson);

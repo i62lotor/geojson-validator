@@ -67,4 +67,52 @@ public class GeojsonSchemaValidatorTest {
 			LOG.error("Validation fails: " + e);
 		}
 	}
+	
+	@Test
+	public void Given_validBboxGeojson_When_validate_Expect_success() {
+		GeojsonValidator validator = new GeojsonValidator();
+		try {
+			Assert.assertTrue(validator.validateBboxSchema(TestDataProvider.VALID_BBOX_GEOJSON).get().isSuccess());
+		} catch (IOException | ProcessingException e) {
+			LOG.error("Validation fails: " + e);
+		}
+	}
+	
+	@Test
+	public void Given_invalidBboxGeojson_When_validate_Expect_fails() {
+		GeojsonValidator validator = new GeojsonValidator();
+		try {
+			ProcessingReport validationResult = validator.validateBboxSchema(TestDataProvider.INVALID_BBOX_GEOJSON)
+					.get();
+			LOG.info(validationResult.toString());
+			Assert.assertFalse(validationResult.isSuccess());
+		} catch (IOException | ProcessingException e) {
+			LOG.error("Validation fails: " + e);
+		}
+	}
+	
+	@Test
+	public void Given_validCrsGeojson_When_validate_Expect_success() {
+		GeojsonValidator validator = new GeojsonValidator();
+		try {
+			ProcessingReport validationResult = validator.validateCrsSchema(TestDataProvider.VALID_CRS_GEOJSON).get();
+			LOG.info(validationResult.toString());
+			Assert.assertTrue(validationResult.isSuccess());
+		} catch (IOException | ProcessingException e) {
+			LOG.error("Validation fails: " + e);
+		}
+	}
+	
+	@Test
+	public void Given_invalidCrsGeojson_When_validate_Expect_fails() {
+		GeojsonValidator validator = new GeojsonValidator();
+		try {
+			ProcessingReport validationResult = validator.validateCrsSchema(TestDataProvider.INVALID_CRS_GEOJSON)
+					.get();
+			LOG.info(validationResult.toString());
+			Assert.assertFalse(validationResult.isSuccess());
+		} catch (IOException | ProcessingException e) {
+			LOG.error("Validation fails: " + e);
+		}
+	}
 }
